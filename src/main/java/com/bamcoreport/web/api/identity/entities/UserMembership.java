@@ -1,6 +1,5 @@
 package com.bamcoreport.web.api.identity.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;

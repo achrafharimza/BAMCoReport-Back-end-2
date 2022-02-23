@@ -22,7 +22,7 @@ import java.util.List;
 
 public class ProfileMemberController {
 
-    static  final org.apache.log4j.Logger log4j = org.apache.log4j.Logger.getLogger(ProfileMemberController.class.getName());
+    private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     IProfilMemberService profilMemberService;
@@ -31,20 +31,11 @@ public class ProfileMemberController {
     //------- All profils members  : -------------------------------------------------------------------
 
     @GetMapping("/")
-    @ApiOperation(value = "Afficher la liste des profils members", notes ="Cette methode permet d'afficher une liste des profils memebers ")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Liste des profils members trouvé dans BD"),
-            @ApiResponse(code = 404, message = "Liste des profils members n'existe pas dans BD"),
-            @ApiResponse(code = 500, message = "Une erreur système s'est produite"),
-            @ApiResponse(code = 401, message = "Pas d'autorisation"),
-            @ApiResponse(code = 403, message = "Acces interdit")
-
-
-    })
+    @ApiResponses({@ApiResponse(code = 500, message = "Une erreur système s'est produite")})
+    @ApiOperation(value = "", nickname = "Retourne la liste des profils Members", notes = "", tags = {})
 
     public ResponseEntity<List<ProfileMemberDto>> getListProfilsMembers() {
         List<ProfileMemberDto> profileMemberDto = profilMemberService.getAllProfilsMembers();
-        log4j.info("Liste des profils members");
         return ResponseEntity.ok(profileMemberDto);
     }
 
@@ -54,19 +45,11 @@ public class ProfileMemberController {
     //------- Ajouter un role : -------------------------------------------------------------------
 
     @PostMapping("/addProfilMember")
-
-    @ApiOperation(value = "Ajouter un profil member", notes ="Cette methode permet d'ajouter un profil member")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Profil member ajouter a la DB"),
-            @ApiResponse(code = 404, message = "Profil member n'est pas ajouter a la DB"),
-            @ApiResponse(code = 500, message = "Une erreur système s'est produite"),
-            @ApiResponse(code = 401, message = "Pas d'autorisation"),
-            @ApiResponse(code = 403, message = "Acces interdit")
-    })
+    @ApiResponses({@ApiResponse(code = 500, message = "Une erreur système s'est produite")})
+    @ApiOperation(value = "", nickname = "Ajouter un nouveau profil Member ", notes = "", tags = {})
 
     public ResponseEntity<ProfileMemberDto> addProfilMember(@RequestBody ProfileMemberDto profileMemberDto) {
         ProfileMemberDto plm = profilMemberService.addProfilMember(profileMemberDto);
-        log4j.info("Ajouter un profil member");
         return ResponseEntity.ok(plm);
     }
 
@@ -76,18 +59,11 @@ public class ProfileMemberController {
     //---- Supprimer un profil member : ------------------------------------------------------------------
 
     @DeleteMapping("/delete")
-    @ApiOperation(value = "Supprimer un profil member", notes ="Cette methode permet de supprimer un profil memeber")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Profil memeber supprimer de la  DB"),
-            @ApiResponse(code = 404, message = "Profil member n'est pas supprimer de la DB"),
-            @ApiResponse(code = 500, message = "Une erreur système s'est produite"),
-            @ApiResponse(code = 401, message = "Pas d'autorisation"),
-            @ApiResponse(code = 403, message = "Acces interdit")
-    })
+    @ApiResponses({@ApiResponse(code = 500, message = "Une erreur système s'est produite")})
+    @ApiOperation(value = "", nickname = "supprimer un profil", notes = "", tags = {})
     public ResponseEntity<String> deleteProfilMember(@RequestBody ProfileMemberDto profileMemberDto) {
         boolean deleted = profilMemberService.deleteProfilMember(profileMemberDto.getId());
-        log4j.info("Supprimer un profil member");
-        return ResponseEntity.ok("{\"ProfilMember\":\"" + profileMemberDto.getId() + "\",\"deleted\":\"" + deleted + "\"}");
+        return ResponseEntity.ok("{\"User\":\"" + profileMemberDto.getId() + "\",\"deleted\":\"" + deleted + "\"}");
 
     }
 
@@ -97,17 +73,11 @@ public class ProfileMemberController {
     // Update un role : -----------------------------------------------------------------------------
 
     @PutMapping("/UpdateProfilMember")
-    @ApiOperation(value = "Updater un profil member", notes ="Cette methode permet de faire une mise à jour d'un profil member")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Profil member updater dans la DB"),
-            @ApiResponse(code = 404, message = "Profil member n'est pas updater dans la DB"),
-            @ApiResponse(code = 500, message = "Une erreur système s'est produite"),
-            @ApiResponse(code = 401, message = "Pas d'autorisation"),
-            @ApiResponse(code = 403, message = "Acces interdit")
-    })
+    @ApiResponses({@ApiResponse(code = 500, message = "Une erreur système s'est produite")})
+    @ApiOperation(value = "", nickname = "Update un profil member", notes = "", tags = {})
+
     public ResponseEntity<ProfileMemberDto> UpdateProfilMember(@RequestBody ProfileMemberDto profileMemberDto) {
         ProfileMemberDto plt = profilMemberService.updateProfilMember(profileMemberDto);
-        log4j.info("Updater un profil member");
         return ResponseEntity.ok(plt);
     }
 

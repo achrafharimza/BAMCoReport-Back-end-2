@@ -8,15 +8,14 @@ import java.util.List;
 
 public interface IUserService extends UserDetailsService {
 
-    List<UserDto> getUsers();
-    UserDto addUser(UserDto user);
-    UserDto getById(long id);
+    List<UserDto> getUsers(int page, int limit);
+    UserDto addUser(UserDto user) throws Exception;
+    UserDto getById(long id) throws Exception;
     boolean deleteUser(long id);
-    UserDto updateUser(UserDto user);
-    UserDto changepass(UserDto user) throws Exception;
+    UserDto updateUser(UserDto user) throws Exception;
+    UserDto changepass(UserDto userDto) ;
 
     String filter( String tokenb);
-
 
 
 

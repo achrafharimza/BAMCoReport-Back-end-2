@@ -23,7 +23,7 @@ import java.util.List;
 @Api(tags = "Utilisateur contact info", value = "Utilisateur contact info Controller")
 public class UserContactInfoController {
 
-    static  final org.apache.log4j.Logger log4j = org.apache.log4j.Logger.getLogger(UserContactInfoController.class.getName());
+    private static final Logger log = LoggerFactory.getLogger(UserContactInfoController.class);
 
     @Autowired
     IUserContactInfoService userContactInfoService;
@@ -31,20 +31,11 @@ public class UserContactInfoController {
     //------- All info users : ------------------------------------------------------------
 
     @GetMapping("/")
-    @ApiOperation(value = "Afficher la liste des informations des utilisateurs ", notes ="Cette methode permet d'afficher une liste des informations des utilisateurs ")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Liste des informations des utilisateurs trouvé dans BD"),
-            @ApiResponse(code = 404, message = "Liste des informations des utilisateurs n'existe pas dans BD"),
-            @ApiResponse(code = 500, message = "Une erreur système s'est produite"),
-            @ApiResponse(code = 401, message = "Pas d'autorisation"),
-            @ApiResponse(code = 403, message = "Acces interdit")
-
-
-    })
+    @ApiResponses({ @ApiResponse(code = 500, message = "Une erreur système s'est produite") })
+    @ApiOperation(value = "", nickname = "Retourne la liste des informations de contact des utilisateurs", notes = "", tags = {})
 
     public ResponseEntity<List<UserContactInfoDto>> getAllContactInfos(){
         List<UserContactInfoDto> userContactInfoDto = userContactInfoService.getUsersContactInfo();
-        log4j.info("liste des informations des utilisateurs");
         return ResponseEntity.ok(userContactInfoDto);
     }
 
@@ -55,18 +46,11 @@ public class UserContactInfoController {
     //------- delete info user   : ------------------------------------------------------------
 
     @PostMapping("/addUserInfo")
-    @ApiOperation(value = "Ajouter les informations d'un utilisateur", notes ="Cette methode permet d'ajouter les informations d'un utilisateur")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Information ajouter a la DB"),
-            @ApiResponse(code = 404, message = "Information n'est pas ajouter a la DB"),
-            @ApiResponse(code = 500, message = "Une erreur système s'est produite"),
-            @ApiResponse(code = 401, message = "Pas d'autorisation"),
-            @ApiResponse(code = 403, message = "Acces interdit")
-    })
+    @ApiResponses({ @ApiResponse(code = 500, message = "Une erreur système s'est produite") })
+    @ApiOperation(value = "", nickname = "Ajouter infos", notes = "", tags = {})
 
     public ResponseEntity<UserContactInfoDto> addUserinfo(@RequestBody UserContactInfoDto userinfo){
         UserContactInfoDto uct = userContactInfoService.addUserinfo(userinfo);
-        log4j.info("Ajout des informations d'un utilisateur");
         return ResponseEntity.ok(uct);
     }
 
@@ -77,19 +61,12 @@ public class UserContactInfoController {
     //----- delete info user : ------------------------------------------------------------------
 
     @DeleteMapping("/DeleteInfoUser")
-    @ApiOperation(value = "Supprimer les informations d'un utilisateur  ", notes ="Cette methode permet de supprimer les informations d'un utilisateur")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Information  supprimer de la  DB"),
-            @ApiResponse(code = 404, message = "Information n'est pas supprimer de la DB"),
-            @ApiResponse(code = 500, message = "Une erreur système s'est produite"),
-            @ApiResponse(code = 401, message = "Pas d'autorisation"),
-            @ApiResponse(code = 403, message = "Acces interdit")
-    })
+    @ApiResponses({ @ApiResponse(code = 500, message = "Une erreur système s'est produite") })
+    @ApiOperation(value = "", nickname = "supprimer info user", notes = "", tags = {})
 
     public ResponseEntity<String> deleteInfoUser(@RequestBody UserContactInfoDto userInfoDto){
         boolean deleted = userContactInfoService.deleteUserinfo(userInfoDto.getId());
-        log4j.info("Supprimer les infos d'un utilisateur");
-        return ResponseEntity.ok("{\"UserContactInfo\":\""+userInfoDto.getId()+"\",\"deleted\":\""+deleted+"\"}" );
+        return ResponseEntity.ok("{\"User\":\""+userInfoDto.getId()+"\",\"deleted\":\""+deleted+"\"}" );
 
     }
 
@@ -100,17 +77,11 @@ public class UserContactInfoController {
     //----- Update Info User ---------------------------------------------------------------
 
     @PutMapping ("/UpdateInfoUser")
-    @ApiOperation(value = "Updater les informations d'un utilisateur  ", notes ="Cette methode permet de faire une mise à jour des informations d'un utilisateur")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Information updater dans la DB"),
-            @ApiResponse(code = 404, message = "Utilisateur n'est pas updater dans la DB"),
-            @ApiResponse(code = 500, message = "Une erreur système s'est produite"),
-            @ApiResponse(code = 401, message = "Pas d'autorisation"),
-            @ApiResponse(code = 403, message = "Acces interdit")
-    })
+    @ApiResponses({ @ApiResponse(code = 500, message = "Une erreur système s'est produite") })
+    @ApiOperation(value = "", nickname = "Update info user", notes = "", tags = {})
+
     public ResponseEntity<UserContactInfoDto> UpdateInfoUser(@RequestBody UserContactInfoDto userInfoDto){
         UserContactInfoDto uci = userContactInfoService.updateInfoUser(userInfoDto);
-        log4j.info("Updater les informations d'un utilisateur");
         return ResponseEntity.ok(uci);
     }
 

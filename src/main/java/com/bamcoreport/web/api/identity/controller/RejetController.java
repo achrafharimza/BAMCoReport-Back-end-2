@@ -1,11 +1,11 @@
 package com.bamcoreport.web.api.identity.controller;
 
-import com.bamcoreport.web.api.identity.dto.model.ProfileDto;
+import com.bamcoreport.web.api.identity.config.SecurityConstants;
 import com.bamcoreport.web.api.identity.dto.model.RejetDto;
-import com.bamcoreport.web.api.identity.dto.model.RoleDto;
-import com.bamcoreport.web.api.identity.dto.model.UserDto;
-import com.bamcoreport.web.api.identity.services.IProfileService;
+import com.bamcoreport.web.api.identity.dto.model.RejetParUtilisateurDto;
+import com.bamcoreport.web.api.identity.helpers.UploadFileResponse;
 import com.bamcoreport.web.api.identity.services.IRejetService;
+import com.bamcoreport.web.api.identity.services.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -14,7 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -31,6 +35,9 @@ public class RejetController {
     IRejetService rejetService;
 
 
+    @Autowired
+    IUserService userService;
+
 
     //------- All rejets : -------------------------------------------------------------------
 
@@ -46,7 +53,13 @@ public class RejetController {
 
     })
 
-    public ResponseEntity<List<RejetDto>> getListRejets(){
+    public ResponseEntity<List<RejetDto>> getListRejets(HttpServletRequest req){
+
+        String token = req.getHeader(SecurityConstants.HEADER_STRING);
+        System.out.println(token);
+        System.out.println("tokentokentokentokentokentokentokentokentoken");
+       String role = userService.filter(token);
+        System.out.println(role);
         List<RejetDto> rejet =rejetService.getAllRejets();
 //        log4j.info("Liste des rejets");
         return ResponseEntity.ok(rejet);
@@ -67,10 +80,21 @@ public class RejetController {
             @ApiResponse(code = 403, message = "Acces interdit")
     })
 
-    public ResponseEntity<RejetDto> addRejet(@RequestBody RejetDto rejetDto) {
-        RejetDto rj = rejetService.addRejet(rejetDto);
+    public ResponseEntity<RejetDto> addRejet(@RequestBody RejetDto rejetDto,HttpServletRequest req) throws Exception {
+        String token = req.getHeader(SecurityConstants.HEADER_STRING);
+
+        String role = userService.filter(token);
+
+
+        if (role.equals("admin") || role.equals("super admin") ){
+            RejetDto rj = rejetService.addRejet(rejetDto);
 //        log4j.info("Ajouter un rejet");
-        return ResponseEntity.ok(rj);
+            return ResponseEntity.ok(rj);
+        }
+        else{
+            throw new Exception("you dont have any permission for this request");
+        }
+
     }
 
     //-------------------------------------------------------------------------------------
@@ -104,11 +128,57 @@ public class RejetController {
     @ApiResponses({ @ApiResponse(code = 500, message = "Une erreur système s'est produite") })
     @ApiOperation(value = "", nickname = "Update un user", notes = "", tags = {})
 
-    public ResponseEntity<RejetDto> Update(@RequestBody RejetDto rejetDto) throws Exception {
-        RejetDto uc = rejetService.updateRejet(rejetDto);
-        return new ResponseEntity<RejetDto>(uc, HttpStatus.CREATED);
+    public ResponseEntity<RejetDto> Update(@RequestBody RejetDto rejetDto,HttpServletRequest req) throws Exception {
+        String token = req.getHeader(SecurityConstants.HEADER_STRING);
+
+        String role = userService.filter(token);
+        if (role.equals("admin") || role.equals("super admin") ){
+            RejetDto uc = rejetService.updateRejet(rejetDto);
+            return new ResponseEntity<RejetDto>(uc, HttpStatus.CREATED);
+        }
+        else{
+            throw new Exception("you dont have any permission for this request");
+        }
+
     }
 
     //---------------------------------------------------------------------------------------------
+
+    //--------- upload file : --------------------------------------------------------------
+    @PostMapping("/uploadFile")
+    public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
+        String fileName = rejetService.storeFile(file);
+
+        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/downloadFile/")
+                .path(fileName)
+                .toUriString();
+
+        return new UploadFileResponse(fileName, fileDownloadUri,
+
+                file.getContentType(), file.getSize());
+    }
+    //--------- nombre total Rejet : --------------------------------------------------------------
+    @GetMapping("/total")
+
+    public ResponseEntity<Integer> totalRejet() throws Exception {
+        int Nombre_Total = rejetService.totalRejet();
+
+            return ResponseEntity.ok(Nombre_Total);
+
+    }
+    //--------- Nombre des rejets par utilisateur : --------------------------------------------------------------
+
+    @GetMapping("/ParUser")
+
+    public ResponseEntity<List<RejetParUtilisateurDto>> RejetParUser()  {
+        List<RejetParUtilisateurDto> rejparnom = rejetService.rejetPuser();
+
+        return ResponseEntity.ok(rejparnom);
+
+    }
+
+
+
 
 }

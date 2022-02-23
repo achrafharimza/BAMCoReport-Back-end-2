@@ -16,8 +16,6 @@ import java.util.List;
 
 @Service
 public class ProfileService implements IProfileService{
-    static  final org.apache.log4j.Logger log4j = org.apache.log4j.Logger.getLogger(ProfileService.class.getName());
-
 
     @Autowired
     ProfileRepository profileRepository;
@@ -57,7 +55,6 @@ public class ProfileService implements IProfileService{
         try {
            profileRepository.deleteById(id);
         }catch (Exception ex){
-            log4j.error(ex.getMessage());
             return false;
         }
         return true;

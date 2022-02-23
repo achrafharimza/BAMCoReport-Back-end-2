@@ -53,6 +53,8 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
                     .getSubject();
 
             if (user != null) {
+                System.out.println(new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>()));
+
                 return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
             }
 

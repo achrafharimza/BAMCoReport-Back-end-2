@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 @Service
 public class UserMembershipService implements IUserMembershipService {
-    static  final org.apache.log4j.Logger log4j = org.apache.log4j.Logger.getLogger(UserMembershipService.class.getName());
-
 
     @Autowired
     UserMembershipRepository userMembershipRepository;
@@ -56,7 +54,6 @@ public class UserMembershipService implements IUserMembershipService {
         try {
             userMembershipRepository.deleteById(id);
         }catch (Exception ex){
-            log4j.error(ex.getMessage());
             return false;
         }
         return true;

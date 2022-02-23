@@ -17,7 +17,7 @@ import java.util.List;
 @Service
 public class RoleService implements IRoleService{
 
-    static  final org.apache.log4j.Logger log4j = org.apache.log4j.Logger.getLogger(RoleService.class.getName());
+    private static final Logger log = LoggerFactory.getLogger(UserService.class);
 
 
     @Autowired
@@ -59,7 +59,6 @@ public class RoleService implements IRoleService{
         try {
             roleRepository.deleteById(id);
         }catch (Exception ex){
-            log4j.error(ex.getMessage());
             return false;
         }
         return true;

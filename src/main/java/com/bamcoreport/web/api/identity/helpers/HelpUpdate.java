@@ -1,9 +1,13 @@
 package com.bamcoreport.web.api.identity.helpers;
 
-
+import com.bamcoreport.web.api.identity.entities.*;
+import org.hibernate.annotations.Entity;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.lang.reflect.Type;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,7 +28,7 @@ public class HelpUpdate {
 
             if (srcValue == null ) emptyNames.add(pd.getName());
 
-            //System.out.println(pd.getName()+" : "+srcValue+" -- "+pd.getReadMethod().getName());
+            System.out.println(pd.getName()+" : "+srcValue+" -- "+pd.getReadMethod().getName());
 
         }
         String[] result = new String[emptyNames.size()];

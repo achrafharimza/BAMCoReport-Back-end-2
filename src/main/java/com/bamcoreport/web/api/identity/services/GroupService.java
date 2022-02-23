@@ -1,8 +1,10 @@
 package com.bamcoreport.web.api.identity.services;
 
 import com.bamcoreport.web.api.identity.dto.model.GroupDto;
+import com.bamcoreport.web.api.identity.dto.model.RoleDto;
 import com.bamcoreport.web.api.identity.dto.services.IMapClassWithDto;
 import com.bamcoreport.web.api.identity.entities.Group;
+import com.bamcoreport.web.api.identity.entities.Role;
 import com.bamcoreport.web.api.identity.helpers.HelpUpdate;
 import com.bamcoreport.web.api.identity.repositories.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +14,6 @@ import java.util.List;
 
 @Service
 public class GroupService implements  IGroupService{
-
-    static  final org.apache.log4j.Logger log4j = org.apache.log4j.Logger.getLogger(GroupService.class.getName());
-
 
     @Autowired
     GroupRepository groupRepository;
@@ -54,7 +53,6 @@ public class GroupService implements  IGroupService{
             try {
                groupRepository.deleteById(id);
             }catch (Exception ex){
-                log4j.error(ex.getMessage());
                 return false;
             }
             return true;

@@ -93,6 +93,7 @@ public class Rejet implements Serializable {
     @Column(name = "file")
     private String file;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "TakenBy")
     private User TakenBy;

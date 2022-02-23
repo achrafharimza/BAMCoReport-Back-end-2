@@ -20,26 +20,16 @@ import java.util.List;
 @Api(tags = "UserMembership", value = "UserMembership")
 public class UserMembershipController {
 
-    static  final org.apache.log4j.Logger log4j = org.apache.log4j.Logger.getLogger(UserMembershipController.class.getName());
 
     @Autowired
     IUserMembershipService UserMembershipService;
     //------- All UserMemberships : -------------------------------------------------------------------
 
     @GetMapping("/")
-    @ApiOperation(value = "Afficher la liste des users Membership ", notes ="Cette methode permet d'afficher une liste des users Membership ")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Liste users Membership  trouvé dans BD"),
-            @ApiResponse(code = 404, message = "Liste users Membership n'existe pas dans BD"),
-            @ApiResponse(code = 500, message = "Une erreur système s'est produite"),
-            @ApiResponse(code = 401, message = "Pas d'autorisation"),
-            @ApiResponse(code = 403, message = "Acces interdit")
-
-
-    })
+    @ApiResponses({ @ApiResponse(code = 500, message = "Une erreur système s'est produite") })
+    @ApiOperation(value = "", nickname = "Retourne la liste des UserMembership", notes = "", tags = {})
     public ResponseEntity<List<UserMembershipDto>> getAllUserMemberships(){
         List<UserMembershipDto> UserMembershipDto = UserMembershipService.getUserMemberships();
-        log4j.info("liste des membership");
         return ResponseEntity.ok(UserMembershipDto);
     }
 
@@ -49,18 +39,11 @@ public class UserMembershipController {
     //------- Add UserMembership : ------------------------------------------------------------------
 
     @PostMapping("/add")
-    @ApiOperation(value = "Ajouter un user Membership  ", notes ="Cette methode permet d'ajouter un user Membership")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "User Membership ajouter a la DB"),
-            @ApiResponse(code = 404, message = "User Membership  n'est pas ajouter a la DB"),
-            @ApiResponse(code = 500, message = "Une erreur système s'est produite"),
-            @ApiResponse(code = 401, message = "Pas d'autorisation"),
-            @ApiResponse(code = 403, message = "Acces interdit")
-    })
+    @ApiResponses({ @ApiResponse(code = 500, message = "Une erreur système s'est produite") })
+    @ApiOperation(value = "", nickname = "Ajouter un nouveau UserMembership", notes = "", tags = {})
 
     public ResponseEntity<UserMembershipDto> addUserMembership(@RequestBody UserMembershipDto userMembershipDto){
         UserMembershipDto uc = UserMembershipService.addUserMembership(userMembershipDto);
-        log4j.info("Ajouter un membership");
         return ResponseEntity.ok(uc);
     }
 
@@ -70,18 +53,11 @@ public class UserMembershipController {
     //------- Delete UserMembership : --------------------------------------------------------------
 
     @DeleteMapping("/delete")
-    @ApiOperation(value = "Supprimer un User Membership  ", notes ="Cette methode permet de supprimer un User Membership")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "User Membership supprimer de la  DB"),
-            @ApiResponse(code = 404, message = "User Membership n'est pas supprimer de la DB"),
-            @ApiResponse(code = 500, message = "Une erreur système s'est produite"),
-            @ApiResponse(code = 401, message = "Pas d'autorisation"),
-            @ApiResponse(code = 403, message = "Acces interdit")
-    })
+    @ApiResponses({ @ApiResponse(code = 500, message = "Une erreur système s'est produite") })
+    @ApiOperation(value = "", nickname = "supprimer un UserMembership", notes = "", tags = {})
     public ResponseEntity<String> deleteUser(@RequestBody UserMembershipDto userMembershipDto){
         boolean deleted = UserMembershipService.deleteUserMembership(userMembershipDto.getId());
-        log4j.info("Supprimer un user membership");
-        return ResponseEntity.ok("{\"UserMembership\":\""+userMembershipDto.getId()+"\",\"deleted\":\""+deleted+"\"}" );
+        return ResponseEntity.ok("{\"User\":\""+userMembershipDto.getId()+"\",\"deleted\":\""+deleted+"\"}" );
 
     }
 
@@ -91,18 +67,11 @@ public class UserMembershipController {
 //--------- Update UserMembership : --------------------------------------------------------------
 
     @PutMapping ("/update")
-    @ApiOperation(value = "Updater un User Membership", notes ="Cette methode permet de faire une mise à jour d'un User Membership")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "User Membership updater dans la DB"),
-            @ApiResponse(code = 404, message = "User Membership n'est pas updater dans la DB"),
-            @ApiResponse(code = 500, message = "Une erreur système s'est produite"),
-            @ApiResponse(code = 401, message = "Pas d'autorisation"),
-            @ApiResponse(code = 403, message = "Acces interdit")
-    })
+    @ApiResponses({ @ApiResponse(code = 500, message = "Une erreur système s'est produite") })
+    @ApiOperation(value = "", nickname = "MODIFIER UserMembership", notes = "", tags = {})
 
     public ResponseEntity<UserMembershipDto> update(@RequestBody UserMembershipDto userMembershipDto){
         UserMembershipDto uc = UserMembershipService.updateuserMembership(userMembershipDto);
-        log4j.info("updater un user membership");
         return ResponseEntity.ok(uc);
     }
 

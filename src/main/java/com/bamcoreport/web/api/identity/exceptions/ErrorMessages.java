@@ -7,6 +7,7 @@ public enum ErrorMessages {
     INTERNAL_SERVER_ERROR("Internal Bright coding server error."),
     NO_RECORD_FOUND("Record with provided id is not found.");
 
+
     private String errorMessage;
 
     private ErrorMessages(String errorMessage) {

@@ -23,7 +23,7 @@ import java.util.List;
 @Service
 public class UserContactInfoService implements IUserContactInfoService{
 
-    static  final org.apache.log4j.Logger log4j = org.apache.log4j.Logger.getLogger(UserContactInfoService.class.getName());
+    private static final Logger log = LoggerFactory.getLogger(UserContactInfoService.class);
 
     @Autowired
     UserContactInfoRepository userContactInfoRepository;
@@ -62,7 +62,6 @@ public class UserContactInfoService implements IUserContactInfoService{
         try {
             userContactInfoRepository.deleteById(id);
         }catch (Exception ex){
-            log4j.error(ex.getMessage());
             return false;
         }
         return true;

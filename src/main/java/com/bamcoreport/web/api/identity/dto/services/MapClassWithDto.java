@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.modelmapper.spi.MatchingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -40,6 +41,14 @@ public class MapClassWithDto<E, D> implements IMapClassWithDto<E, D> {
 
     @Override
     public List<D> convertListToListDto(Collection<E> entityList, Class<D> outCLass) {
+        if(entityList == null)
+            return Collections.emptyList();
+
+        return entityList.stream().map(entity -> convertToDto(entity, outCLass)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<D> convertPageToListDto(Page<E> entityList, Class<D> outCLass) {
         if(entityList == null)
             return Collections.emptyList();
 

@@ -11,13 +11,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-
+@Service
 public class FilterRole {
 
     @Autowired
-   private UserRepository userRepository;
+    UserRepository userRepository;
     @Autowired
-    private RoleRepository roleRepository;
+    RoleRepository roleRepository;
 
     public String filter ( String tokenb){
         System.out.println("\n");
@@ -44,14 +44,15 @@ public class FilterRole {
                 System.out.println("\n");
                 System.out.println("inif");
                 System.out.println(username);
-                User existingUser = userRepository.findByUsername(username);
+                User userEntity = userRepository.findByUsername(username);
+
                 System.out.println("\n");
                 System.out.println("userEntity");
-                System.out.println(existingUser.getUsername());
+                System.out.println(userEntity.getUsername());
 
 
-                if (existingUser != null) {
-                    long id =existingUser.getId();
+                if (userEntity != null) {
+                    long id =userEntity.getId();
 
                  String role=roleRepository.findrole(id);
               return role;
